@@ -153,7 +153,7 @@ def print_recv_frame(frame):
     
 def main():
     ki.start()
-    print('[bright_green]Connected to Direwolf on[/bright_green][bright_red] ' + config['pyax25mon']['host'] + '[/bright_red][bright_green] port : [/bright_green][bright_red]' + config['pyax25mon']['port'] + "[/bright_red]")
+    print('[bright_green]PyAX25Mon v0.1 Connected to Direwolf on[/bright_green][bright_red] ' + config['pyax25mon']['host'] + '[/bright_red][bright_green] port : [/bright_green][bright_red]' + config['pyax25mon']['port'] + "[/bright_red]")
     # try:
     #     Thread(target=send_msg).start()
     # except:
