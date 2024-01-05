@@ -5,8 +5,8 @@ For use with programs like Dire Wolf.
 """
 #import time
 #from threading import Thread
-from bitarray import bitarray
 import configparser
+from bitarray import bitarray
 
 from rich import print
 #from ax253 import Frame
@@ -15,14 +15,14 @@ import kiss
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-ki = kiss.classes.TCPKISS(host=config["pyax25mon"]["host"], port=int(config["pyax25mon"]["port"]), strip_df_start=True)
+ki = kiss.classes.TCPKISS(host=config["pyax25mon"]["host"], 
+                          port=int(config["pyax25mon"]["port"]), strip_df_start=True)
 
 def print_recv_frame(frame):
+    """ Recv Frame printing to console"""
     print('[bright_white]Data received : [/bright_white][bright_red]'+ str(frame) + "[/bright_red]")
     ##########################################    
-        
-    ''' Grab Dest Callsign from AX25 frame '''
-
+    # Grab Dest Callsign from AX25 frame
     ##########################################
     ##########################################
     print("Dest callsign in bytes : ", end="")
@@ -38,14 +38,9 @@ def print_recv_frame(frame):
     print(" - and decoded('utf-8') to str : ", end="")
     decode_dest_callsign = dest_callsign.decode("utf-8")
     print("[green]" + decode_dest_callsign + "[/green]")
-    
     ##########################################
     ##########################################
-        
-                
-    ''' Grab Dest SSID byte from AX25 frame '''
-
-
+    # Grab Dest SSID byte from AX25 frame
     ##########################################
     ##########################################
     print("Dest ssid byte : ", end="")
@@ -62,10 +57,7 @@ def print_recv_frame(frame):
     print("Dest HDLC bit 0 : " + str(dest_ssid_hdlc_bit) + " - SSID bits 1-4 : " + str(dest_ssid_encoding_bits) + " - SSID rr bits 5-6 : " + str(dest_ssid_rrbits) + " - SSID c_r bit 7 : " + str(dest_ssid_cr_bit))
     ##########################################
     ##########################################
-        
-        
-    ''' Grab Src Callsign from AX25 frame '''
-
+    # Grab Src Callsign from AX25 frame
     ##########################################
     ##########################################
     print("Src callsign in bytes : ", end="")
@@ -83,7 +75,7 @@ def print_recv_frame(frame):
     print("[green]" + decode_src_callsign + "[/green]")
     ##########################################
     ##########################################
-    ''' Grab Src SSID byte from AX25 frame '''
+    # Grab Src SSID byte from AX25 frame
     ##########################################
     ##########################################
     print("Src ssid byte : ", end="")
@@ -100,7 +92,7 @@ def print_recv_frame(frame):
     print("Src HDLC bit 0 : " + str(src_ssid_hdlc_bit) + " - SSID bits 1-4 : " + str(src_ssid_encoding_bits) + " - SSID rr bits 5-6 : " + str(src_ssid_rrbits) + " - SSID c_r bit 7 : " + str(src_ssid_cr_bit))
     ##########################################
     ##########################################
-    ''' Grad Control Byte from Frame '''
+    # Grad Control Byte from Frame
     ##########################################
     ##########################################
     print("Frame control byte : ", end="")
@@ -112,7 +104,7 @@ def print_recv_frame(frame):
     print(frame_ctrl_bits)
     ##########################################
     ##########################################
-    ''' Grab PID byte from frame '''  
+    # Grab PID byte from frame 
     ##########################################
     ##########################################
     pid_byte = frame[15:16]
@@ -124,8 +116,7 @@ def print_recv_frame(frame):
     print(pid_bits)
     ##########################################
     ##########################################
-    ''' Grab Info from AX25 frame'''
-    
+    # Grab Info from AX25 frame
     ##########################################
     ##########################################
     info_bytes = frame[16:]
@@ -150,10 +141,12 @@ def print_recv_frame(frame):
 #         ki.write(frame)
 #         ki.write(b'\x9c\x98r\xae\x8c\x98`\x9c\x98d\x9a\xac\xac\xe11')
 #         time.sleep(10)
-    
 def main():
+    """ Main function """
     ki.start()
-    print('[bright_green]PyAX25Mon v0.1 Connected to Direwolf on[/bright_green][bright_red] ' + config['pyax25mon']['host'] + '[/bright_red][bright_green] port : [/bright_green][bright_red]' + config['pyax25mon']['port'] + "[/bright_red]")
+    print('[bright_green]PyAX25Mon v0.1 Connected to Direwolf on[/bright_green][bright_red] ' +  
+          config['pyax25mon']['host'] + '[/bright_red][bright_green] port : [/bright_green][bright_red]' +  
+          config['pyax25mon']['port'] + "[/bright_red]")
     # try:
     #     Thread(target=send_msg).start()
     # except:
@@ -162,5 +155,4 @@ def main():
     ki.read(callback=print_recv_frame, min_frames=None)
 
 if __name__ == "__main__":
-    main()
-    
+    main() 
